@@ -183,8 +183,6 @@ class HGFilter(nn.Module):
         else:
             raise NameError('unknown downsampling type')
     
-        normx = x
-
         x = self.conv3(x)
         x = self.conv4(x)
 
@@ -212,5 +210,5 @@ class HGFilter(nn.Module):
                 tmp_out_ = self._modules['al' + str(i)](tmp_out)
                 previous = previous + ll + tmp_out_
             
-        return outputs, normx
+        return outputs 
     

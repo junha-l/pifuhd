@@ -82,7 +82,6 @@ def eval_grid(coords, eval_func, num_samples=512 * 512 * 512):
     return sdf.reshape(resolution)
 
 
-import time
 def eval_grid_octree(coords, eval_func,
                      init_resolution=64, threshold=0.05,
                      num_samples=512 * 512 * 512):

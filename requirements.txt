@@ -3,8 +3,8 @@
 # `pip install -r requirements.txt`
 # Make sure you have pip installed!
 # To update just use `pip install -r requirements.txt --upgrade`
-torch
-torchvision
+#torch
+#torchvision
 Pillow                # PIL
 scikit-image          #skimage
 tqdm
