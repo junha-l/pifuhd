@@ -26,7 +26,7 @@ class BasePIFuNet(nn.Module):
 
         self.preds = None
         self.labels = None
-        self.nmls = None
+        self.normals = None
         self.labels_nml = None
         self.preds_surface = None # with normal loss only
 
