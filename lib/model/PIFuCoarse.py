@@ -51,11 +51,7 @@ class PIFuCoarse(BasePIFuNet):
 
         normals = []
         ########## TODO: Translate images to normal maps ##########
-        with torch.no_grad():
-            self.normal_front = self.netF.forward(images).detach()
-            normals.append(self.normal_front)
-            self.normal_backward = self.netB.forward(images).detach()
-            normals.append(self.normal_backward)
+
         ########## [End] Translate images to normal maps ##########
         normals = torch.cat(normals, 1)
 
@@ -65,8 +61,7 @@ class PIFuCoarse(BasePIFuNet):
             )(normals)
 
         ########## TODO: Extract Image Features ##########
-        images = torch.cat([images, normals], 1)
-        self.im_feat = self.image_filter(images)
+
         ########## [End] Extract Image Features ##########
 
         if not self.training:
@@ -87,9 +82,7 @@ class PIFuCoarse(BasePIFuNet):
         sp_feat = self.spatial_enc(xyz, calibs=calibs)
 
         ########## TODO: Extract PIFu features ##########
-        point_local_feat_list = [self.index(self.im_feat, xy), sp_feat]
-        point_local_feat = torch.cat(point_local_feat_list, 1)
-        pred, phi = self.mlp(point_local_feat)
+
         ########## [End] Extract PIFu features ##########
 
         pred = in_bb * pred

@@ -47,12 +47,7 @@ def reconstruction(
 
     def eval_func(points):
         ########## TODO: Eval occupancy fields ##########
-        points = np.expand_dims(points, axis=0)
-        points = np.repeat(points, 1, axis=0)
-        samples = torch.from_numpy(points).to(device=cuda).float()
-
-        net.query(samples, calib_tensor)
-        pred = net.get_preds()[0][0]
+        pred = None
         ########## [End] Eval occupancy fields ##########
         return pred.detach().cpu().numpy()
 

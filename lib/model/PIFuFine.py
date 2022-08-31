@@ -23,17 +23,7 @@ class PIFuFine(BasePIFuNet):
         self.opt = opt
 
         ########## TODO: Define network ##########
-        in_ch = 3 + 3 + 3
-        self.image_filter = HGFilter(
-            opt.num_stack, opt.hg_depth, in_ch, opt.hg_dim, opt.norm, "no_down", False
-        )
-        self.mlp = MLP(
-            filter_channels=self.opt.mlp_dim,
-            merge_layer=-1,
-            res_layers=self.opt.mlp_res_layers,
-            norm=self.opt.mlp_norm,
-            last_op=nn.Sigmoid(),
-        )
+
         ########## [End] Define network ##########
         init_net(self)
         self.netG = netG
@@ -60,10 +50,7 @@ class PIFuFine(BasePIFuNet):
         )(torch.cat(normals, 1))
 
         ########## TODO: Extract image features ##########
-        images = torch.cat(
-            [images, normals[:, None].expand(-1, images.size(1), -1, -1, -1)], 2
-        )
-        self.im_feat = self.image_filter(images.view(-1, *images.size()[2:]))
+
         ########## [End] Extract image feature ##########
         if not self.training:
             self.im_feat = self.im_feat[-1]
@@ -89,12 +76,7 @@ class PIFuFine(BasePIFuNet):
             z_feat = z_feat.detach()
 
         ########## TODO: Extract PIFu features ##########
-        point_local_feat_list = [
-            self.index(self.im_feat.view(-1, *self.im_feat.size()[1:]), xy),
-            z_feat,
-        ]
-        point_local_feat = torch.cat(point_local_feat_list, 1)
-        pred = self.mlp(point_local_feat)[0]
+
         ########## [End] Extract PIFu features ##########
         pred = in_bb * pred
 
